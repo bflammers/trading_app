@@ -1,8 +1,9 @@
 
 # pull official base image
-FROM python:3.8
+FROM python:3.8.2-alpine
 
 # To print output to the terminal
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # create and set working directory
@@ -10,6 +11,7 @@ RUN mkdir /db
 WORKDIR /db
 
 # Copy requirements and install with pip
+RUN pip install --upgrade pip
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
 

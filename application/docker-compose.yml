@@ -6,12 +6,42 @@ services:
     container_name: app
     build:
       context: .
-      dockerfile: Dockerfile.app
+      dockerfile: ./app/Dockerfile
     volumes:
-      - './:/app'
       - '/app/node_modules'
+      - './app:/app'
     ports:
       - 3000:3000
     environment:
       - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ./.env.dev
     stdin_open: true # needed because of issue with react-scripts https://github.com/facebook/create-react-app/issues/8688
+
+  sql:
+    image: postgres
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports: 
+      - "5432:5432"
+    env_file:
+      - ./.env.dev
+
+  db:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+              python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - sql
+    env_file:
+      - ./.env.dev
+  

@@ -14,7 +14,7 @@ RUN npm install
 RUN npm install react-scripts@3.4.3 -g 
 
 # add app to workdir
-COPY . ./
+COPY ./ ./
 
 # start app
 CMD ["npm", "start"]
