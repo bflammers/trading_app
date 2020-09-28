@@ -6,20 +6,23 @@ FROM python:3.8.2-alpine
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# create and set working directory
-RUN mkdir /db
+# set working directory
 WORKDIR /db
+
+# install psycopg2 dependencies
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev
 
 # Copy requirements and install with pip
 RUN pip install --upgrade pip
-COPY requirements.txt ./
+COPY ./requirements.txt ./
 RUN pip install -r requirements.txt
 
 # Copy contents to service folder
-COPY ./db ./
+COPY ./ ./
 
 # Apply database migrations
 RUN python manage.py migrate
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD [".", "docker-entrypoint.sh"]
 

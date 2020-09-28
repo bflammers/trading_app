@@ -1,3 +1,6 @@
+# Postbase local data
+postgres-data
+
 # Environment files
 env
 env.dev
