@@ -18,11 +18,16 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt ./
 RUN pip install -r requirements.txt
 
+COPY ./docker-entrypoint.sh .
+
 # Copy contents to service folder
 COPY ./ ./
 
 # Apply database migrations
-RUN python manage.py migrate
+# RUN python manage.py migrate
 
-CMD [".", "docker-entrypoint.sh"]
+# CMD [".", "docker-entrypoint.sh"]
+
+# run entrypoint.sh
+ENTRYPOINT ["sh", "/db/docker-entrypoint.sh", "python", "manage.py", "runserver", "0.0.0.0:8000"]
 

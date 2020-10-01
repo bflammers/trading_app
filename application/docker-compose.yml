@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
 
-  app:
+  app-nodejs:
     container_name: app
     build:
       context: ./app
@@ -16,7 +16,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true # needed because of issue with react-scripts https://github.com/facebook/create-react-app/issues/8688
 
-  sql:
+  sql-postgres:
     image: postgres:12.0-alpine
     volumes:
       - ./db/postgres-data:/var/lib/postgresql/data
@@ -27,16 +27,16 @@ services:
       - POSTGRES_USER=${SQL_USER}
       - POSTGRES_PASSWORD=${SQL_PASSWORD}
 
-  db:
+  db-django:
     build:
-      context: db
+      context: ./db
       dockerfile: ./Dockerfile
     volumes:
       - ./db:/db
     ports:
       - "8000:8000"
     depends_on:
-      - sql
+      - sql-postgres
     env_file: 
       - ./.env
   

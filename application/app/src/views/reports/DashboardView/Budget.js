@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,8 +33,32 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 const Budget = ({ className, ...rest }) => {
   const classes = useStyles();
+
+  const [Users, setUsers] = useState(["bfl"])
+
+  useEffect(() => {
+    fetch('http://172.29.0.4:8000/v1/user/')
+      .then(response => {
+        console.log(response)
+        const data = response.json()
+        return data
+      })
+      .then(data => {
+        console.log('---')
+        console.log(data)
+        console.log(data[0]['username'])
+
+        const newUsers = [data[0]['username']]
+        console.log(newUsers)
+        setUsers(newUsers)
+      })
+
+  }, [])
+
+  console.log(Users)
 
   return (
     <Card
@@ -58,6 +83,7 @@ const Budget = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
+              {Users.map(user => <p key={user}>{user}</p>)}
               $24,000
             </Typography>
           </Grid>
