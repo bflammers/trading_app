@@ -40,7 +40,7 @@ const Budget = ({ className, ...rest }) => {
   const [Users, setUsers] = useState(["bfl"])
 
   useEffect(() => {
-    fetch('http://172.29.0.4:8000/v1/user/')
+    fetch('user/')
       .then(response => {
         console.log(response)
         const data = response.json()
