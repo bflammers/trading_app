@@ -1,3 +1,6 @@
+
+*.zip
+
 # Postbase local data
 postgres-data
 
