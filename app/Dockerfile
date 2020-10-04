@@ -16,6 +16,9 @@ RUN npm install react-scripts@3.4.3 -g
 # add app to workdir
 COPY ./ ./
 
+# Expose port 
+EXPOSE 80
+
 # start app
 CMD ["npm", "start"]
 
