@@ -1,4 +1,5 @@
 
+# Needed for github actions
 *.zip
 
 # Postbase local data

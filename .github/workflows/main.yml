@@ -20,8 +20,8 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: us-dev-dev-vpc
-        environment_name: us-dev-dev-vpc
-        version_label: 0.0.5
+        application_name: tradingapp-dev-app
+        environment_name: tradingapp-dev-app
+        version_label: 0.0.1
         region: eu-west-1
         deployment_package: ./app/app_deploy.zip
