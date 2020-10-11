@@ -82,3 +82,17 @@ module "elastic_beanstalk_environment" {
     }
   ]
 }
+
+
+resource "aws_route53_record" "domain_route" {
+  zone_id = var.hosted_zone_id
+  name    = "www.unicornshepherd.com"
+  type    = "A"
+  # ttl     = "300"
+  # records = [module.elastic_beanstalk_environment.endpoint]
+  alias {
+    name = module.elastic_beanstalk_environment.endpoint
+    zone_id = module.elastic_beanstalk_environment.elb_zone_id
+    evaluate_target_health = false
+  }
+}
