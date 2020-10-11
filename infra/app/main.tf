@@ -93,6 +93,10 @@ resource "aws_route53_record" "domain_route" {
   alias {
     name = module.elastic_beanstalk_environment.endpoint
     zone_id = module.elastic_beanstalk_environment.elb_zone_id
+<<<<<<< Updated upstream
     evaluate_target_health = false
+=======
+    evaluate_target_health = true
+>>>>>>> Stashed changes
   }
 }
