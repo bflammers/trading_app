@@ -30,7 +30,7 @@ module "elastic_beanstalk_application" {
   namespace   = var.namespace
   stage       = var.stage
   name        = var.name
-  description = "Test elastic_beanstalk_application"
+  description = "Trading APP - elastic_beanstalk_application"
 }
 
 module "elastic_beanstalk_environment" {
@@ -38,12 +38,12 @@ module "elastic_beanstalk_environment" {
   namespace                          = var.namespace
   stage                              = var.stage
   name                               = var.name
-  description                        = "Test elastic_beanstalk_environment"
+  description                        = "Trading APP - elastic_beanstalk_environment"
   region                             = var.region
   availability_zone_selector         = "Any 2"
   elastic_beanstalk_application_name = module.elastic_beanstalk_application.elastic_beanstalk_application_name
 
-  instance_type           = "t3.micro"
+  instance_type           = "t3.small"
   autoscale_min           = 1
   autoscale_max           = 2
   updating_min_in_service = 0
@@ -62,21 +62,6 @@ module "elastic_beanstalk_environment" {
   additional_settings = [
     {
       namespace = "aws:elasticbeanstalk:application:environment"
-      name      = "DB_HOST"
-      value     = "xxxxxxxxxxxxxx"
-    },
-    {
-      namespace = "aws:elasticbeanstalk:application:environment"
-      name      = "DB_USERNAME"
-      value     = "yyyyyyyyyyyyy"
-    },
-    {
-      namespace = "aws:elasticbeanstalk:application:environment"
-      name      = "DB_PASSWORD"
-      value     = "zzzzzzzzzzzzzzzzzzz"
-    },
-    {
-      namespace = "aws:elasticbeanstalk:application:environment"
       name      = "ANOTHER_ENV_VAR"
       value     = "123456789"
     }
@@ -86,17 +71,13 @@ module "elastic_beanstalk_environment" {
 
 resource "aws_route53_record" "domain_route" {
   zone_id = var.hosted_zone_id
-  name    = "www.unicornshepherd.com"
+  name    = "unicornshepherd.com"
   type    = "A"
   # ttl     = "300"
   # records = [module.elastic_beanstalk_environment.endpoint]
   alias {
     name = module.elastic_beanstalk_environment.endpoint
     zone_id = module.elastic_beanstalk_environment.elb_zone_id
-<<<<<<< Updated upstream
-    evaluate_target_health = false
-=======
     evaluate_target_health = true
->>>>>>> Stashed changes
   }
 }
