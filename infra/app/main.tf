@@ -146,7 +146,6 @@ resource "aws_elastic_beanstalk_environment" "dev_eb_env" {
 #   ]
 # }
 
-
 # # Does not work as it should, for now configuring routing policy manually
 # resource "aws_route53_record" "domain_route" {
 #   zone_id = var.hosted_zone_id
