@@ -6,9 +6,9 @@
 postgres-data
 
 # Environment files
-env
-env.dev
-env.prod
+.env
+.env.dev
+.env.prod
 
 # dependencies
 node_modules

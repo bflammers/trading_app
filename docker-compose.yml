@@ -30,7 +30,7 @@ services:
   db-django:
     build:
       context: ./db
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.dev
     volumes:
       - ./db:/db
     ports:
