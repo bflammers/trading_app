@@ -28,6 +28,8 @@ COPY ./ ./
 
 # CMD [".", "docker-entrypoint.sh"]
 
+EXPOSE 8080
+
 # run entrypoint.sh
-ENTRYPOINT ["sh", "/db/docker-entrypoint.sh", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["sh", "/db/docker-entrypoint.sh", "python", "manage.py", "runserver", "8080"]
 
