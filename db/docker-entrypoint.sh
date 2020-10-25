@@ -2,7 +2,7 @@
 
 echo 'Script has started'
 
-if [ "$SQL_DATABASE" = "postgres" ]
+if [ "$SQL_ENGINE" = "django.db.backends.postgresql" ]
 then
     echo "Waiting for postgres..."
 
@@ -14,6 +14,7 @@ then
 fi
 
 python manage.py flush --no-input
+python manage.py makemigrations
 python manage.py migrate
 
 exec "$@"

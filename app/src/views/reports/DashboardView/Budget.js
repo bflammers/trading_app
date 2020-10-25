@@ -37,29 +37,6 @@ const useStyles = makeStyles((theme) => ({
 const Budget = ({ className, ...rest }) => {
   const classes = useStyles();
 
-  const [Users, setUsers] = useState(["bfl"])
-
-  useEffect(() => {
-    fetch('user/')
-      .then(response => {
-        console.log(response)
-        const data = response.json()
-        return data
-      })
-      .then(data => {
-        console.log('---')
-        console.log(data)
-        console.log(data[0]['username'])
-
-        const newUsers = [data[0]['username']]
-        console.log(newUsers)
-        setUsers(newUsers)
-      })
-
-  }, [])
-
-  console.log(Users)
-
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -83,7 +60,6 @@ const Budget = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-              {Users.map(user => <p key={user}>{user}</p>)}
               $24,000
             </Typography>
           </Grid>

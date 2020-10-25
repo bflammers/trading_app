@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -24,11 +24,6 @@ import {
 } from 'react-feather';
 import NavItem from './NavItem';
 
-const user = {
-  avatar: '/static/images/avatars/mette.jpeg',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
-};
 
 const items = [
   {
@@ -93,12 +88,45 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
 
+  const [User, setUser] = useState({
+    "first_name": "xx", 
+    "last_name": "yy", 
+    "username": "zz",
+    "avatar": '/static/images/avatars/mette.jpeg',
+    "job_title": "PIOG"
+  })
+
+  // const user = {
+  //   avatar: '/static/images/avatars/mette.jpeg',
+  //   jobTitle: 'Senior Developer',
+  //   name: 'Katarina Smith'
+  // };
+
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
+
+  useEffect(() => {
+    fetch('user_profile/2/')
+      .then(response => {
+        console.log("Response: ", response)
+        const data = response.json()
+        return data
+      })
+      .then(data => {
+       
+        const newUser = {...User}
+        newUser["first_name"] = data["user"]["first_name"]
+        newUser["last_name"] = data["user"]["last_name"]
+        newUser["username"] = data["user"]["username"]
+        console.log("Setting newUser: ", newUser)
+        setUser(newUser)
+      })
+
+  }, [])
 
   const content = (
     <Box
@@ -115,7 +143,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         <Avatar
           className={classes.avatar}
           component={RouterLink}
-          src={user.avatar}
+          src={User.avatar}
           to="/app/account"
         />
         <Typography
@@ -123,13 +151,13 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           color="textPrimary"
           variant="h5"
         >
-          {user.name}
+          {User["first_name"]} {User["last_name"]}
         </Typography>
         <Typography
           color="textSecondary"
           variant="body2"
         >
-          {user.jobTitle}
+          {User["job_title"]}
         </Typography>
       </Box>
       <Divider />
@@ -145,42 +173,11 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           ))}
         </List>
       </Box>
-      <Box flexGrow={1} />
-      <Box
-        p={2}
-        m={2}
-        bgcolor="background.dark"
-      >
-        <Typography
-          align="center"
-          gutterBottom
-          variant="h4"
-        >
-          Need more?
-        </Typography>
-        <Typography
-          align="center"
-          variant="body2"
-        >
-          Upgrade to PRO version and access 20 more screens
-        </Typography>
-        <Box
-          display="flex"
-          justifyContent="center"
-          mt={2}
-        >
-          <Button
-            color="primary"
-            component="a"
-            href="https://react-material-kit.devias.io"
-            variant="contained"
-          >
-            See PRO version
-          </Button>
-        </Box>
-      </Box>
     </Box>
   );
+
+  console.log("END")
+  console.log(User)
 
   return (
     <>

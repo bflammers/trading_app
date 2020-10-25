@@ -8,7 +8,6 @@ services:
       context: ./app
       dockerfile: ./Dockerfile.dev
     volumes:
-      - '/app/node_modules'
       - './app:/app'
     ports:
       - 3000:3000
@@ -22,10 +21,8 @@ services:
       - ./db/postgres-data:/var/lib/postgresql/data
     ports: 
       - "5432:5432"
-    environment:
-      - POSTGRES_DB=${SQL_DATABASE}
-      - POSTGRES_USER=${SQL_USER}
-      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+    env_file: 
+      - ./.env.dev
 
   db-django:
     build:
@@ -38,5 +35,5 @@ services:
     depends_on:
       - sql-postgres
     env_file: 
-      - ./.env
+      - ./.env.dev
   
