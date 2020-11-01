@@ -3,6 +3,19 @@ provider "aws" {
   region = var.region
 }
 
+terraform {
+  backend "s3" {
+
+    bucket         = "unicorn-shepherd-terraform-state"
+    key            = "dev/db/terraform.tfstate"
+    region         = "eu-west-1"
+
+    # For state locking
+    dynamodb_table = "unicorn-shepherd-terraform-state-locks"
+    encrypt        = true
+  }
+}
+
 module "label" {
   source      = "../modules/label"
   name        = var.name
